@@ -1,1 +1,1 @@
-# Kaggle-Ai-SampleTest-Poject
+# Kaggle-Ai-SampleTest-Project
