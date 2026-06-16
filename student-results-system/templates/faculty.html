@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Faculty portal for Student Result Management System. Add, update, and search student grades.">
+    <title>Faculty Dashboard - Result Management System</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo-group">
+                <!-- Academic cap SVG -->
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M22 10v6M2 10l10-5 10 5-10 5z" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="logo-title-nav">Faculty Dashboard</span>
+            </div>
+            
+            <div class="user-profile-nav">
+                <!-- S3 Backup Trigger Button -->
+                <button class="btn btn-secondary btn-sm" id="btn-backup" title="Backup database to AWS S3 bucket">
+                    <!-- S3/Cloud Upload Icon -->
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21.2 15c.9-1 1-2.5.2-3.6-.9-1.2-2.7-1.4-3.7-.4m-4.5-4c1.7-3.3 5.7-3.3 7.4 0m-13.4 3c-1-1.2-2.8-1.4-3.8-.4-1 1-.9 2.6.2 3.6m8.8-6.2c-2.3-3.6-7.8-1.5-7.8 2.8m8.7-2.8v8.8m0 0l-3.5-3.5m3.5 3.5l3.5-3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span id="backup-btn-text">Backup to AWS S3</span>
+                </button>
+
+                <div class="user-details-text">
+                    <span class="user-name">{{ name }}</span>
+                    <span class="user-role">Faculty Administrator</span>
+                </div>
+                <div class="user-avatar" style="background-color: var(--color-accent);">
+                    {{ name[0] | upper }}
+                </div>
+                <a href="{{ url_for('logout') }}" class="btn btn-secondary btn-sm btn-danger" style="margin-left: 0.5rem;">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-main">
+        <!-- Faculty Actions Row -->
+        <section class="faculty-actions-row">
+            <!-- Search bar -->
+            <div class="search-box">
+                <!-- Search icon -->
+                <svg class="search-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <input type="text" id="student-search" placeholder="Search students by name, roll no, department..." aria-label="Search student database">
+            </div>
+            
+            <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                Select a student below to update, edit, or record marks.
+            </div>
+        </section>
+
+        <!-- Student Database Grid -->
+        <section class="student-grid" id="student-grid-container">
+            <!-- Populated dynamically via JS -->
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-secondary);">
+                Loading students database...
+            </div>
+        </section>
+    </main>
+
+    <!-- Manage Marks Modal -->
+    <div class="modal-backdrop" id="marks-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modal-student-name">Manage Student Marks</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="marks-edit-list" id="modal-marks-list">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" id="btn-save-marks" onclick="saveAllMarks()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Faculty Dashboard Javascript logic -->
+    <script src="{{ url_for('static', filename='js/faculty.js') }}"></script>
+</body>
+</html>
